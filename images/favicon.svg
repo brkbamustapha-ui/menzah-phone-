@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36">
+  <style>
+    .fond { fill: #0F1115; }
+    .lettre { stroke: #FCFCFD; }
+    @media (prefers-color-scheme: dark) {
+      .fond { fill: #F2F3F5; }
+      .lettre { stroke: #0F1115; }
+    }
+  </style>
+  <rect class="fond" width="36" height="36" rx="10"/>
+  <path class="lettre" d="M10 25.5V12.5l8 9 8-9v13" fill="none" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <ellipse cx="28.2" cy="7.6" rx="3.4" ry="1.9" transform="rotate(-38 28.2 7.6)" fill="#22C35E"/>
+</svg>
