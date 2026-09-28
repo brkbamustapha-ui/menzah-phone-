@@ -75,8 +75,8 @@
     <h1>Tableau de bord</h1>
     <p class="connexion-sous">Menzah Store : commandes, produits et réglages du site.</p>
     <div class="champ">
-      <label for="c-email">Adresse e-mail</label>
-      <input id="c-email" name="email" type="email" autocomplete="username" required>
+      <label for="c-identifiant">Nom d'utilisateur</label>
+      <input id="c-identifiant" name="identifiant" type="text" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false" maxlength="80" required>
     </div>
     <div class="champ">
       <label for="c-mdp">Mot de passe</label>
@@ -319,7 +319,7 @@
           <svg class="icone" aria-hidden="true"><use href="#i-lock"/></svg>
           Mon compte
         </h2>
-        <p class="aide">Connecté avec <strong data-email></strong>.</p>
+        <p class="aide">Nom d'utilisateur : <strong data-identifiant></strong></p>
         <div class="grille-champs">
           <div class="champ"><label for="m-mdp">Nouveau mot de passe</label><input id="m-mdp" name="mdp" type="password" autocomplete="new-password" minlength="8"></div>
           <div class="champ"><label for="m-mdp2">Confirmer le mot de passe</label><input id="m-mdp2" name="mdp2" type="password" autocomplete="new-password" minlength="8"></div>

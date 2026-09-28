@@ -187,6 +187,10 @@ create policy menzah_storage_suppr_admin on storage.objects
   for delete to authenticated using (bucket_id = 'menzah' and (select public.menzah_is_admin()));
 
 -- ---------- Donner l'accès admin à un compte ----------
--- 1. Créer l'utilisateur dans Supabase > Authentication > Users (e-mail + mot de passe).
+-- Le tableau de bord se connecte avec un nom d'utilisateur, converti en adresse technique
+-- <nom>@menzah-store.vercel.app (voir DOMAINE_IDENTIFIANT dans admin/admin.js).
+-- Compte actuel : menzahstore@menzah-store.vercel.app (nom d'utilisateur « menzahstore »).
+-- 1. Créer l'utilisateur dans Supabase > Authentication > Users : e-mail
+--    vendeur@menzah-store.vercel.app, mot de passe, « Auto Confirm User » coché.
 -- 2. Puis : insert into public.menzah_admins (user_id)
---           select id from auth.users where email = 'adresse@exemple.com';
+--           select id from auth.users where email = 'vendeur@menzah-store.vercel.app';

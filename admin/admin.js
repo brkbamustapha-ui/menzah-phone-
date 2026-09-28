@@ -1,6 +1,6 @@
 /*
  * Tableau de bord Menzah Store (Supabase).
- * Connexion par e-mail et mot de passe. Seuls les comptes présents dans la table
+ * Connexion par nom d'utilisateur et mot de passe. Seuls les comptes présents dans la table
  * menzah_admins peuvent lire les commandes et modifier le site (règles RLS).
  */
 (function () {
@@ -88,6 +88,24 @@
     return sansAccents(texte).replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 50) || "produit";
   }
 
+  // Supabase Auth demande un e-mail : le nom d'utilisateur « Menzah Store » devient l'adresse
+  // technique menzahstore@menzah-store.vercel.app (aucun e-mail n'y est envoyé).
+  // Ne pas changer ce domaine : il identifie les comptes existants.
+  var DOMAINE_IDENTIFIANT = "menzah-store.vercel.app";
+
+  function emailDepuisIdentifiant(identifiant) {
+    var v = sansAccents(identifiant);
+    if (v.indexOf("@") !== -1) return v;
+    v = v.replace(/[^a-z0-9]/g, "");
+    return v ? v + "@" + DOMAINE_IDENTIFIANT : "";
+  }
+
+  function identifiantDepuisEmail(email) {
+    var suffixe = "@" + DOMAINE_IDENTIFIANT;
+    email = email || "";
+    return email.slice(-suffixe.length) === suffixe ? email.slice(0, -suffixe.length) : email;
+  }
+
   function toast(message, type) {
     var zone = $("[data-toasts]");
     var el = document.createElement("div");
@@ -103,7 +121,7 @@
 
   function messageErreur(err) {
     var m = (err && (err.message || err.error_description)) || "";
-    if (/Invalid login credentials/i.test(m)) return "E-mail ou mot de passe incorrect.";
+    if (/Invalid login credentials/i.test(m)) return "Nom d'utilisateur ou mot de passe incorrect.";
     if (/Failed to fetch|NetworkError|Load failed/i.test(m)) return "Pas de connexion internet. Réessayez.";
     if (/JWT|session/i.test(m)) return "Session expirée, reconnectez-vous.";
     if (/duplicate key/i.test(m)) return "Cet identifiant existe déjà.";
@@ -189,10 +207,10 @@
       var erreur = $("[data-connexion-erreur]");
       var bouton = $("[data-connexion-bouton]");
       erreur.hidden = true;
-      var email = form.email.value.trim();
+      var email = emailDepuisIdentifiant(form.identifiant.value);
       var mdp = form.mdp.value;
       if (!email || !mdp) {
-        erreur.textContent = "Indiquez votre e-mail et votre mot de passe.";
+        erreur.textContent = "Indiquez votre nom d'utilisateur et votre mot de passe.";
         erreur.hidden = false;
         return;
       }
@@ -233,7 +251,7 @@
           vue("connexion");
         });
       }
-      $("[data-email]").textContent = session.user.email;
+      $("[data-identifiant]").textContent = identifiantDepuisEmail(session.user.email);
       vue("app");
       ouvrirOnglet();
       return Promise.all([chargerCommandes(), chargerProduits().then(chargerReglages)]).then(function () { abonnerDirect(); });

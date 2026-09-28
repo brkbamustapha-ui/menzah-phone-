@@ -31,7 +31,7 @@ Informations reprises des comptes [TikTok @menzah.store](https://www.tiktok.com/
 
 ## Le tableau de bord (`/admin/`)
 
-Connexion par e-mail et mot de passe. Trois onglets :
+Connexion par nom d'utilisateur et mot de passe. Trois onglets :
 
 - **Commandes** : nouvelles commandes en direct, statut (nouvelle, confirmée, livrée, annulée),
   appel ou message WhatsApp au client en un clic, recherche et filtres.
@@ -68,11 +68,24 @@ supabase/schema.sql     structure de la base de données
 vercel.json             en-têtes de sécurité
 ```
 
-## Ajouter un autre administrateur
+## Comptes du tableau de bord
 
-1. Supabase > Authentication > Users > Add user (e-mail et mot de passe).
+On se connecte avec le nom d'utilisateur `menzahstore` (majuscules et espaces ignorés :
+« Menzah Store » fonctionne aussi). Supabase demande une adresse e-mail : le tableau de bord
+la construit à partir du nom d'utilisateur, ici `menzahstore@menzah-store.vercel.app`.
+Cette adresse technique ne reçoit aucun e-mail. Un compte créé avec une vraie adresse e-mail
+peut aussi se connecter en tapant cette adresse.
+
+**Ajouter un administrateur** (par exemple `vendeur`) :
+
+1. Supabase > Authentication > Users > Add user > Create new user : e-mail
+   `vendeur@menzah-store.vercel.app`, un mot de passe, et « Auto Confirm User » coché.
 2. Dans SQL Editor :
-   `insert into public.menzah_admins (user_id) select id from auth.users where email = 'adresse@exemple.com';`
+   `insert into public.menzah_admins (user_id) select id from auth.users where email = 'vendeur@menzah-store.vercel.app';`
+3. La personne se connecte avec le nom d'utilisateur `vendeur`.
+
+**Mot de passe oublié** : aucun e-mail de récupération n'est envoyé. Dans SQL Editor :
+`update auth.users set encrypted_password = extensions.crypt('NouveauMotDePasse', extensions.gen_salt('bf')) where email = 'menzahstore@menzah-store.vercel.app';`
 
 ## À vérifier
 
