@@ -1,100 +1,86 @@
-# Menzah Store : site vitrine
+# Menzah Store : site et tableau de bord
 
-Site de la boutique **Menzah Store** (téléphones, Canastel, Oran).
-Il reprend les informations des comptes [TikTok @menzah.store](https://www.tiktok.com/@menzah.store) et
+Site de la boutique **Menzah Store** (téléphones, Canastel, Oran), avec un tableau de bord
+pour gérer les commandes, les produits et les réglages.
+Informations reprises des comptes [TikTok @menzah.store](https://www.tiktok.com/@menzah.store) et
 [Instagram @menzah_store](https://www.instagram.com/menzah_store/).
 
 ![Aperçu du site](images/apercu.jpg)
 
-## Ce que contient le site
+## Adresses
 
-- **Accueil** : slogan de la boutique, bouton WhatsApp, chiffres TikTok (55,7 k abonnés, 283,6 k j'aime).
-- **Catalogue** : 15 produits avec filtres (iPhone, Android, accessoires) et recherche.
-  Un clic sur un produit ouvre sa fiche : choix de la couleur et de la capacité, puis bouton
-  **Commander** qui ouvre WhatsApp avec un message déjà rempli
-  (ex. « iPhone 17 Pro Max, Couleur : Bleu intense, Capacité : 512 Go »).
-  Chaque fiche a son propre lien à partager (bouton **Partager**).
-- **Vidéos TikTok** et **publications Instagram** de la boutique, affichées directement sur le site.
-- **Boutique** : adresse à Canastel, carte Google Maps, bouton Itinéraire, numéros cliquables.
-- Fonctionne sur téléphone et ordinateur, en mode clair et sombre.
-
-## Modifier le site (sans être développeur)
-
-Tout se modifie dans **deux fichiers**, avec le Bloc-notes ou directement sur GitHub (icône crayon) :
-
-| Fichier | Contenu |
+| | |
 |---|---|
-| `js/config.js` | numéros, WhatsApp, adresse, lien Google Maps, horaires, chiffres TikTok, vidéos TikTok, publications Instagram |
-| `js/produits.js` | le catalogue : produits, couleurs, capacités, prix, badges |
+| Site | https://menzah-store.vercel.app |
+| Tableau de bord | https://menzah-store.vercel.app/admin/ |
 
-### Mettre un prix
+## Le site
 
-Dans `js/produits.js`, remplacez `prix: null` par le prix en dinars, sans espace :
+- **Catalogue** filtrable (iPhone, Android, accessoires) avec recherche.
+  Les téléphones apparaissent avec une animation au défilement et s'inclinent au survol.
+- **Commande en ligne** : le client choisit la couleur et la capacité, indique son nom et son
+  téléphone, et la commande arrive **en direct** dans le tableau de bord (avec un son).
+  Écran de confirmation animé avec le numéro de commande, et lien WhatsApp pour le suivi.
+  Le client peut toujours choisir de commander directement sur WhatsApp.
+- Vidéos TikTok et publications Instagram de la boutique affichées sur le site.
+- Adresse, carte, bouton Itinéraire, numéros cliquables.
+- Logo et couleur principale réglables depuis le tableau de bord : tout le site s'adapte,
+  avec des contrastes toujours lisibles en mode clair et sombre.
+- Si la base de données ne répond pas, le site fonctionne quand même avec `js/config.js`
+  et `js/produits.js`, et les commandes passent par WhatsApp.
 
-```js
-prix: 215000,          // affiche « 215 000 DA »
-prixBarre: 230000,     // facultatif : ancien prix barré pour une promo
-```
+## Le tableau de bord (`/admin/`)
 
-Avec `prix: null`, le site affiche « Prix sur demande ».
+Connexion par e-mail et mot de passe. Trois onglets :
 
-### Ajouter un produit
+- **Commandes** : nouvelles commandes en direct, statut (nouvelle, confirmée, livrée, annulée),
+  appel ou message WhatsApp au client en un clic, recherche et filtres.
+- **Produits** : ajouter, modifier, supprimer, masquer, changer l'ordre ; photo (réduite
+  automatiquement), couleurs, capacités, prix et prix barré, badge (Nouveau, Promo...),
+  lien de la vidéo TikTok.
+- **Réglages** : **logo** (importer une capture de la photo de profil Instagram ou TikTok : le site
+  propose automatiquement les couleurs du logo), couleur du site, adresse, horaires, numéros,
+  WhatsApp, livraison, réseaux, vidéos TikTok et publications Instagram affichées, mot de passe.
 
-Copiez un bloc `{ ... },` existant dans `js/produits.js`, collez-le et changez les valeurs
-(`id` doit être unique, sans espace ni accent, ex. `"iphone-13-occasion"`).
-Pour le retirer, supprimez simplement son bloc.
+## Technique
 
-### Ajouter les vraies photos des produits
-
-1. Mettez la photo dans le dossier `images/produits/` (ex. `iphone-16-pro-max.jpg`).
-2. Dans le produit concerné, ajoutez : `image: "images/produits/iphone-16-pro-max.jpg",`
-
-Sans photo, le site affiche un dessin du téléphone dans la couleur choisie.
-
-### Ajouter une vidéo TikTok ou une publication Instagram
-
-Dans `js/config.js` :
-
-- **TikTok** : dans `videosTiktok`, ajoutez `{ id: "7500708952628317495", titre: "Mon titre" },`
-  (l'identifiant est le long nombre à la fin du lien de la vidéo).
-- **Instagram** : dans `postsInstagram`, collez le lien de la publication ou du reel.
-
-## Mettre le site en ligne gratuitement (GitHub Pages)
-
-1. Sur GitHub, ouvrez le dépôt, puis **Settings** > **Pages**.
-2. Dans **Branch**, choisissez la branche du site et le dossier `/ (root)`, puis **Save**.
-3. Après une ou deux minutes, le site est en ligne à l'adresse
-   `https://brkbamustapha-ui.github.io/menzah-phone-/`.
-4. Mettez ce lien dans la bio TikTok et Instagram.
-
-Si vous utilisez une autre adresse (nom de domaine, Netlify...), remplacez
-`https://brkbamustapha-ui.github.io/menzah-phone-/` dans `index.html` (balises `og:url` et `og:image`)
-pour que l'aperçu du lien s'affiche bien sur WhatsApp et Facebook.
-
-Pour tester sur votre ordinateur : ouvrez `index.html` dans le navigateur.
-
-## À vérifier avant la mise en ligne
-
-- **Numéro WhatsApp** : le site utilise le 07 77 31 93 32. Si c'est l'autre numéro, changez `whatsapp` dans `js/config.js`.
-- **Catalogue** : seuls l'iPhone 16 Pro Max et l'OPPO Find X9 Pro (12/512 Go) ont été repérés dans vos vidéos TikTok.
-  Les autres produits sont une base à adapter : retirez ceux que vous ne vendez pas et ajoutez vos prix.
-- **Carte** : si le repère Google Maps n'est pas exactement sur la boutique, mettez les coordonnées GPS
-  dans `carteRecherche` (ex. `"35.7499,-0.5637"`). Le bouton Itinéraire utilise déjà votre lien Google Maps.
-- **Horaires** : à ajouter dans `horaires` (`js/config.js`).
-
-## Fichiers
+- Site statique HTML, CSS et JavaScript, sans étape de construction.
+- Base de données, connexion et photos : **Supabase** (projet `jxthopvlrwmbpmqbhkmy`, tables
+  préfixées `menzah_`). Le schéma complet est dans `supabase/schema.sql`.
+  - Sécurité : les visiteurs peuvent seulement lire le catalogue et passer commande via la
+    fonction `menzah_passer_commande` (numéro algérien vérifié, 3 commandes maximum par numéro
+    toutes les 10 minutes). Seuls les comptes de la table `menzah_admins` voient les commandes
+    et modifient le site.
+  - La clé présente dans `js/supabase-config.js` est une clé publique prévue pour le navigateur.
+- Hébergement : **Vercel**, relié à ce dépôt GitHub : chaque modification poussée est mise en ligne.
 
 ```
-index.html            page du site
-css/style.css         apparence
-js/config.js          informations de la boutique (à modifier)
-js/produits.js        catalogue (à modifier)
-js/visuels.js         dessins des téléphones
-js/app.js             fonctionnement (catalogue, fiche produit, WhatsApp, vidéos)
-images/               logo, icône, image d'aperçu, photos des produits
-fonts/                police Geist
+index.html              page du site
+css/style.css           apparence du site
+js/app.js               fonctionnement du site (catalogue, commande, animations)
+js/marque.js            logo et couleurs de la boutique
+js/visuels.js           dessins des téléphones (en attendant les photos)
+js/supabase-config.js   connexion à la base
+js/config.js            réglages de secours (si la base ne répond pas)
+js/produits.js          catalogue de secours
+admin/                  tableau de bord
+supabase/schema.sql     structure de la base de données
+vercel.json             en-têtes de sécurité
 ```
 
-Police [Geist](https://github.com/vercel/geist-font) (licence SIL OFL 1.1) et icônes
-[Phosphor](https://phosphoricons.com) (licence MIT) : voir `LICENCES.md`.
+## Ajouter un autre administrateur
+
+1. Supabase > Authentication > Users > Add user (e-mail et mot de passe).
+2. Dans SQL Editor :
+   `insert into public.menzah_admins (user_id) select id from auth.users where email = 'adresse@exemple.com';`
+
+## À vérifier
+
+- **Catalogue** : seuls l'iPhone 16 Pro Max et l'OPPO Find X9 Pro (12/512 Go) ont été repérés
+  dans les vidéos TikTok. Les autres produits sont une base à adapter depuis le tableau de bord.
+- **WhatsApp** : le site utilise le 07 77 31 93 32 (modifiable dans Réglages).
+- **Carte** : pour un repère exact, mettez les coordonnées GPS dans Réglages > Recherche pour la carte.
+
+Police [Geist](https://github.com/vercel/geist-font) (SIL OFL 1.1), icônes [Phosphor](https://phosphoricons.com)
+et [supabase-js](https://github.com/supabase/supabase-js) (MIT) : voir `LICENCES.md`.
 Les marques citées (Apple, iPhone, OPPO, Samsung...) appartiennent à leurs propriétaires respectifs.
