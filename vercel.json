@@ -9,7 +9,7 @@
       ]
     },
     {
-      "source": "/admin/:chemin*",
+      "source": "/admin(.*)",
       "headers": [
         { "key": "X-Frame-Options", "value": "DENY" },
         { "key": "X-Robots-Tag", "value": "noindex, nofollow" },
@@ -17,7 +17,7 @@
       ]
     },
     {
-      "source": "/fonts/:fichier*",
+      "source": "/fonts/(.*)",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
       ]
